@@ -147,7 +147,7 @@ export default function ProductCard({
                 )
               }
               className={cn(
-                "relative overflow-hidden group/btn flex-1 h-12 rounded-xl font-semibold text-base cursor-pointer border border-primary transition-all flex items-center justify-center gap-2",
+                "relative overflow-hidden group/btn flex-1 h-12 rounded-xl font-semibold text-sm xl:text-base cursor-pointer border border-primary transition-all flex items-center justify-center gap-2",
                 isPlanSelected && "bg-primary text-white",
               )}
             >
@@ -196,13 +196,13 @@ export default function ProductCard({
             </div>
           )}
           {/* Price */}
-          <div className="flex items-center flex-col pt-1">
+          <div className="flex items-center font-medium flex-col pt-1">
             {product.originalPrice ? (
               <span className="text-[#D8392B] line-through decoration-1 text-base">
                 ${product.originalPrice.toFixed(2)}
               </span>
             ) : null}
-            <span className="text-[#575757]  text-base">
+            <span className="text-[#575757] text-base">
               ${product.price.toFixed(2)}
               {product.category === "plan" && "/mo"}
             </span>
