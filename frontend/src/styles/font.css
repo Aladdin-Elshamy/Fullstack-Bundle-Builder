@@ -1,0 +1,34 @@
+@font-face {
+    font-family: 'Gilory';
+    src: url('../assets/fonts/Gilroy-Regular.ttf') format('truetype');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Gilory';
+    src: url('../assets/fonts/Gilroy-RegularItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Gilory';
+    src: url('../assets/fonts/Gilroy-Medium.ttf') format('truetype');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'Gilory';
+    src: url('../assets/fonts/Gilroy-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: 'Gilory';
+    src: url('../assets/fonts/Gilroy-Bold.ttf') format('truetype');
+    font-weight: 700;
+}
+@font-face {
+    font-family: 'TT_Norms_Pro';
+    src: url('../assets/fonts/TT_Norms_Pro_Trial_Bold.ttf') format('truetype');
+    font-weight: 700;
+}
