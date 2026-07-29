@@ -1,15 +1,14 @@
 import { create } from "zustand";
-import { allProducts } from "../features/builder/constants";
-import {
-  getDefaultQuantities,
-  getLineKey,
-} from "../shared/lib/selectors";
+import { getDefaultQuantities, getLineKey } from "../shared/lib/selectors";
 import type { Product } from "../shared/types/components";
 
 const STORAGE_KEY = "wyze-security-system";
 
 type BundleStore = {
   quantities: Record<string, number>;
+  products: Record<string, Product>;
+  hasSavedSystem: boolean;
+  registerProducts: (products: Product[]) => void;
   setQuantity: (
     product: Product,
     variantName: string | undefined,
@@ -37,11 +36,34 @@ const loadPersistedQuantities = () => {
   }
 };
 
-const getInitialQuantities = () =>
-  loadPersistedQuantities() ?? getDefaultQuantities();
+const persistedQuantities = loadPersistedQuantities();
 
 export const useBundleStore = create<BundleStore>((set, get) => ({
-  quantities: getInitialQuantities(),
+  quantities: persistedQuantities ?? {},
+  products: {},
+  hasSavedSystem: Boolean(persistedQuantities),
+
+  registerProducts: (products) => {
+    set((state) => {
+      const nextProducts = { ...state.products };
+
+      products.forEach((product) => {
+        nextProducts[product.id] = product;
+      });
+
+      if (state.hasSavedSystem) {
+        return { products: nextProducts };
+      }
+
+      return {
+        products: nextProducts,
+        quantities: {
+          ...getDefaultQuantities(products),
+          ...state.quantities,
+        },
+      };
+    });
+  },
 
   setQuantity: (product, variantName, quantity) => {
     if (product.required) {
@@ -58,7 +80,7 @@ export const useBundleStore = create<BundleStore>((set, get) => ({
       const quantities = { ...state.quantities };
 
       if (product.category === "plan" && nextQuantity > 0) {
-        allProducts
+        Object.values(state.products)
           .filter((item) => item.category === "plan")
           .forEach((plan) => {
             delete quantities[plan.id];
@@ -81,9 +103,16 @@ export const useBundleStore = create<BundleStore>((set, get) => ({
     }
 
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(get().quantities));
+    set({ hasSavedSystem: true });
   },
 
   loadSavedSystem: () => {
-    set({ quantities: getInitialQuantities() });
+    const nextPersistedQuantities = loadPersistedQuantities();
+
+    set({
+      quantities:
+        nextPersistedQuantities ?? getDefaultQuantities(Object.values(get().products)),
+      hasSavedSystem: Boolean(nextPersistedQuantities),
+    });
   },
 }));

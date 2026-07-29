@@ -19,7 +19,11 @@ type ChosenProductsProps = {
 
 export default function ChosenProducts({ productType }: ChosenProductsProps) {
   const quantities = useBundleStore((state) => state.quantities);
-  const lines = useMemo(() => getSelectedLines(quantities), [quantities]);
+  const products = useBundleStore((state) => state.products);
+  const lines = useMemo(
+    () => getSelectedLines(quantities, products),
+    [quantities, products],
+  );
   const filteredLines = useMemo(
     () =>
       productType

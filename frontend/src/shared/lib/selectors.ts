@@ -1,5 +1,5 @@
-import { allProducts } from "../../features/builder/constants";
 import type { Product } from "../types/components";
+export type ProductLookup = Record<string, Product>;
 
 export type BundleLine = {
   key: string;
@@ -18,12 +18,8 @@ export type BundleTotals = {
   monthlyTotal: number;
 };
 
-export const requiredProducts = allProducts.filter(
-  (product) => product.required,
-);
-
-export const getProductById = (productId: string) =>
-  allProducts.find((product) => product.id === productId);
+export const getProductById = (products: ProductLookup, productId: string) =>
+  products[productId];
 
 export const getVariant = (product: Product, variantName?: string) =>
   product.options?.find((option) => option.variant_name === variantName);
@@ -45,10 +41,10 @@ export const getQuantity = (
   return quantities[getLineKey(product, variantName)] ?? 0;
 };
 
-export const getDefaultQuantities = () => {
+export const getDefaultQuantities = (products: Product[]) => {
   const quantities: Record<string, number> = {};
 
-  allProducts.forEach((product) => {
+  products.forEach((product) => {
     if (product.required || product.quantity <= 0) {
       return;
     }
@@ -62,6 +58,7 @@ export const getDefaultQuantities = () => {
 
 export const getSelectedLines = (
   quantities: Record<string, number>,
+  products: ProductLookup,
 ): BundleLine[] => {
   const lines: BundleLine[] = [];
 
@@ -71,7 +68,7 @@ export const getSelectedLines = (
     }
 
     const [productId, variantName] = key.split("::");
-    const product = getProductById(productId);
+    const product = getProductById(products, productId);
 
     if (!product || product.required) {
       return;
@@ -89,25 +86,28 @@ export const getSelectedLines = (
     });
   });
 
-  requiredProducts.forEach((product) => {
-    if (lines.some((line) => line.product.category === product.category)) {
-      lines.push({
-        key: product.id,
-        product,
-        quantity: 1,
-        required: true,
-      });
-    }
-  });
+  Object.values(products)
+    .filter((product) => product.required)
+    .forEach((product) => {
+      if (lines.some((line) => line.product.category === product.category)) {
+        lines.push({
+          key: product.id,
+          product,
+          quantity: 1,
+          required: true,
+        });
+      }
+    });
 
   return lines;
 };
 
 export const getSelectedCountByCategory = (
   quantities: Record<string, number>,
+  products: ProductLookup,
   category: Product["category"],
 ) => {
-  return getSelectedLines(quantities).filter(
+  return getSelectedLines(quantities, products).filter(
     (line) => !line.required && line.product.category === category,
   ).length;
 };

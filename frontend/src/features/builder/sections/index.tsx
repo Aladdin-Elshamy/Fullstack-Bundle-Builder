@@ -6,16 +6,13 @@ import {
 } from "#components/ui/accordion";
 import ArrowUpIcon from "#icons/ArrowUpIcon";
 import { useQuery } from "@tanstack/react-query";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { getSelectedCountByCategory } from "../../../shared/lib/selectors";
 import type { Product } from "../../../shared/types/components";
 import { useBundleStore } from "../../../store/useBundleStore";
-import {
-  ACCORDION_SECTIONS,
-  fetchProductsBySection,
-  type BuilderSectionValue,
-} from "../constants";
+import { ACCORDION_SECTIONS, type BuilderSectionValue } from "../constants";
 import LoadingProductCard from "../components/LoadingProductCard";
+import { fetchProductsBySection } from "../services/products";
 import Products from "./Products";
 
 const categoryBySection = {
@@ -38,6 +35,7 @@ function AccordionProductsSection({
   isOpen,
   onNext,
 }: AccordionProductsSectionProps) {
+  const registerProducts = useBundleStore((state) => state.registerProducts);
   const {
     data: products = [],
     isLoading,
@@ -48,6 +46,12 @@ function AccordionProductsSection({
     queryFn: () => fetchProductsBySection(section),
     enabled: isOpen,
   });
+
+  useEffect(() => {
+    if (products.length > 0) {
+      registerProducts(products);
+    }
+  }, [products, registerProducts]);
 
   if (isLoading || (isOpen && isFetching && products.length === 0)) {
     const loadingCards = Array.from({ length: section === "plan" ? 3 : 4 });
@@ -84,6 +88,7 @@ function AccordionProductsSection({
 export default function Builder() {
   const [openItems, setOpenItems] = useState<string[] | undefined>(["cameras"]);
   const quantities = useBundleStore((state) => state.quantities);
+  const products = useBundleStore((state) => state.products);
 
   const handleNext = (currentIndex: number) => {
     const nextSection = ACCORDION_SECTIONS[currentIndex + 1]?.value;
@@ -110,6 +115,7 @@ export default function Builder() {
         const isItemOpen = Boolean(openItems?.includes(item.value));
         const selectedCount = getSelectedCountByCategory(
           quantities,
+          products,
           categoryBySection[sectionValue],
         );
 

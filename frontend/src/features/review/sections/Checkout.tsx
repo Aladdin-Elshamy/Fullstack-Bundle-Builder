@@ -8,10 +8,11 @@ import { useBundleStore } from "../../../store/useBundleStore";
 
 export default function Checkout() {
   const quantities = useBundleStore((state) => state.quantities);
+  const products = useBundleStore((state) => state.products);
   const saveSystem = useBundleStore((state) => state.saveSystem);
   const totals = useMemo(
-    () => getTotals(getSelectedLines(quantities)),
-    [quantities],
+    () => getTotals(getSelectedLines(quantities, products)),
+    [quantities, products],
   );
   const hasSavings = totals.savings > 0;
   const financingAmount = Math.max(totals.total / 12, 0);
