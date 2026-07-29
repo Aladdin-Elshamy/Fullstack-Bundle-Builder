@@ -17,7 +17,7 @@ export default function LoadingProductCard({
       {/* ── Image zone ── */}
       <div className="relative overflow-hidden flex items-center justify-center h-80 w-full xl:w-1/2 xl:min-h-full bg-white/50">
         <Skeleton className="absolute top-3 left-3 h-6 w-20 rounded-full" />
-        <Skeleton className="h-40 w-40 rounded-2xl" />
+        <Skeleton className="h-40 w-40 rounded-2xl xl:mx-2" />
       </div>
 
       {/* Info zone */}
