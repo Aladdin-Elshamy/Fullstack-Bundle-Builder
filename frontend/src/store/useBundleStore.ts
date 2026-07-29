@@ -4,6 +4,14 @@ import type { Product } from "../shared/types";
 
 const STORAGE_KEY = "wyze-security-system";
 
+const DEFAULT_QUANTITIES: Record<string, number> = {
+  "cam-v4::White": 1,
+  "cam-pan-v3::White": 2,
+  "motion-sensor": 2,
+  "micro-sd-256": 2,
+  "cam-unlimited-monthly": 1,
+};
+
 type BundleStore = {
   quantities: Record<string, number>;
   hasSavedSystem: boolean;
@@ -38,7 +46,7 @@ const loadPersistedQuantities = () => {
 const persistedQuantities = loadPersistedQuantities();
 
 export const useBundleStore = create<BundleStore>((set, get) => ({
-  quantities: persistedQuantities ?? {},
+  quantities: persistedQuantities ?? DEFAULT_QUANTITIES,
   hasSavedSystem: Boolean(persistedQuantities),
   setQuantity: (product, variantName, quantity, exclusiveProductIds = []) => {
     if (product.required) {
@@ -81,7 +89,7 @@ export const useBundleStore = create<BundleStore>((set, get) => ({
     const nextPersistedQuantities = loadPersistedQuantities();
 
     set({
-      quantities: nextPersistedQuantities ?? {},
+      quantities: nextPersistedQuantities ?? DEFAULT_QUANTITIES,
       hasSavedSystem: Boolean(nextPersistedQuantities),
     });
   },
