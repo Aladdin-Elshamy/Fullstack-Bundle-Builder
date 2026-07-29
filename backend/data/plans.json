@@ -1,0 +1,26 @@
+[
+  {
+    "id": "cam-unlimited-monthly",
+    "category": "plan",
+    "name": "Cam Unlimited",
+    "description": "Unlimited cloud recording for all your Wyze cameras with AI-powered event detection.",
+    "price": 9.99,
+    "quantity": 0
+  },
+  {
+    "id": "cam-plus",
+    "category": "plan",
+    "name": "Cam Plus",
+    "description": "Smart AI detection, unlimited event video length, and cloud recording for one camera.",
+    "price": 2.99,
+    "quantity": 0
+  },
+  {
+    "id": "cam-protect",
+    "category": "plan",
+    "name": "Home Monitoring",
+    "description": "24/7 professional home monitoring with emergency dispatch and Wyze Sense support.",
+    "price": 9.99,
+    "quantity": 0
+  }
+]

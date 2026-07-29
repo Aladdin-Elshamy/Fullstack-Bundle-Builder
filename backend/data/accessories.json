@@ -1,0 +1,20 @@
+[
+  {
+    "id": "micro-sd-256",
+    "category": "accessory",
+    "name": "Wyze MicroSD Card (256GB)",
+    "description": "Continuous local recording.",
+    "image": "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785320985/micro-sd_m8wbla.webp",
+    "price": 41.96,
+    "quantity": 0
+  },
+  {
+    "id": "micro-sd-512",
+    "category": "accessory",
+    "name": "Wyze MicroSD Card (512GB)",
+    "description": "Large local recording.",
+    "image": "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785320985/micro-sd_m8wbla.webp",
+    "price": 50,
+    "quantity": 0
+  }
+]
