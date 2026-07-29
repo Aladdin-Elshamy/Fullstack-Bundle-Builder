@@ -1,13 +1,11 @@
+import DeliveryIcon from "#icons/DeliveryIcon";
+
 export default function FeatureLine() {
   return (
     <div className="pt-3.5 flex items-center justify-between gap-3 border-t border-[#CED6DE] mt-2.5">
       <div className="flex items-center gap-3 min-w-0">
-        <div className="w-16 h-14 rounded-md bg-white p-2 shrink-0">
-          <img
-            src={""}
-            alt={"Fast Shipping is Supported"}
-            className="h-full w-full object-contain"
-          />
+        <div className="w-12 h-12 flex items-center justify-center rounded-md bg-white p-2 shrink-0">
+          <DeliveryIcon className="text-[#0AA288]" />
         </div>
         <div className="min-w-0">
           <p className="font-medium text-[#0B0D10]">Fast Shipping</p>

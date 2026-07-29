@@ -15,6 +15,7 @@ import {
   fetchProductsBySection,
   type BuilderSectionValue,
 } from "../constants";
+import LoadingProductCard from "../components/LoadingProductCard";
 import Products from "./Products";
 
 const categoryBySection = {
@@ -49,9 +50,18 @@ function AccordionProductsSection({
   });
 
   if (isLoading || (isOpen && isFetching && products.length === 0)) {
+    const loadingCards = Array.from({ length: section === "plan" ? 3 : 4 });
+
     return (
-      <div className="py-10 text-center text-sm font-medium text-[#6F7882]">
-        Loading products...
+      <div className="grid grid-cols-1 justify-stretch xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5 xl:grid-cols-2 p-0.5">
+        {loadingCards.map((_, index) => (
+          <LoadingProductCard
+            key={index}
+            isLastAndOdd={
+              index === loadingCards.length - 1 && (index + 1) % 2 !== 0
+            }
+          />
+        ))}
       </div>
     );
   }

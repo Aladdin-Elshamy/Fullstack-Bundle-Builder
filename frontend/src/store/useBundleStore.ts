@@ -1,10 +1,10 @@
 import { create } from "zustand";
-import type { Product } from "../shared/types/components";
+import { allProducts } from "../features/builder/constants";
 import {
-  allProducts,
   getDefaultQuantities,
   getLineKey,
 } from "../shared/lib/selectors";
+import type { Product } from "../shared/types/components";
 
 const STORAGE_KEY = "wyze-security-system";
 

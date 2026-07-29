@@ -29,7 +29,7 @@ export default function ChosenProducts({ productType }: ChosenProductsProps) {
           )
         : [],
     [lines, productType],
-  );
+  ); 
 
   if (!productType || filteredLines.length === 0) {
     return null;

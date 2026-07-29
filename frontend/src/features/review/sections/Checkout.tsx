@@ -13,7 +13,6 @@ export default function Checkout() {
     () => getTotals(getSelectedLines(quantities)),
     [quantities],
   );
-  console.log(totals)
   const hasSavings = totals.savings > 0;
   const financingAmount = Math.max(totals.total / 12, 0);
 
@@ -24,7 +23,7 @@ export default function Checkout() {
 
   return (
     <section className="mt-2.5 sm:mt-0 text-center sm:w-2/5 lg:w-full">
-      <div className="grid grid-cols-[1fr_auto] md:grid-cols-[auto_1fr] xl:grid-cols-[1fr_auto] items-center gap-2">
+      <div className="pb-3.5 grid grid-cols-[1fr_auto] md:grid-cols-[auto_1fr] xl:grid-cols-[1fr_auto] items-center gap-2">
         <img
           src={SatisfactionBadge}
           className="w-20 h-20 md:h-28 md:w-28 xl:w-20 xl:h-20 row-span-2 md:row-span-1 xl:row-span-2"
@@ -59,7 +58,7 @@ export default function Checkout() {
         </p>
       ) : null}
       {hasSavings ? (
-        <p className="pt-3.5 font-semibold text-[#0AA288] text-xs">
+        <p className="font-semibold text-[#0AA288] text-xs">
           Congrats! You're saving ${totals.savings.toFixed(2)} on your security
           bundle!
         </p>

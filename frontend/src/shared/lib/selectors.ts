@@ -1,9 +1,4 @@
-import {
-  accessoryProducts,
-  camera,
-  planProducts,
-  sensorProducts,
-} from "../../features/builder/constants";
+import { allProducts } from "../../features/builder/constants";
 import type { Product } from "../types/components";
 
 export type BundleLine = {
@@ -23,13 +18,6 @@ export type BundleTotals = {
   monthlyTotal: number;
 };
 
-export const allProducts = [
-  ...camera,
-  ...sensorProducts,
-  ...accessoryProducts,
-  ...planProducts,
-];
-
 export const requiredProducts = allProducts.filter(
   (product) => product.required,
 );
@@ -38,10 +26,10 @@ export const getProductById = (productId: string) =>
   allProducts.find((product) => product.id === productId);
 
 export const getVariant = (product: Product, variantName?: string) =>
-  product.colors?.find((color) => color.name === variantName);
+  product.options?.find((option) => option.variant_name === variantName);
 
 export const getLineKey = (product: Product, variantName?: string) =>
-  product.colors?.length && variantName
+  product.options?.length && variantName
     ? `${product.id}::${variantName}`
     : product.id;
 
@@ -65,7 +53,7 @@ export const getDefaultQuantities = () => {
       return;
     }
 
-    quantities[getLineKey(product, product.colors?.[0]?.name)] =
+    quantities[getLineKey(product, product.options?.[0]?.variant_name)] =
       product.category === "plan" ? 1 : product.quantity;
   });
 
@@ -96,7 +84,7 @@ export const getSelectedLines = (
       product,
       quantity,
       variantName,
-      variantValue: variant?.value,
+      variantValue: variant?.color_value,
       variantImage: variant?.image,
     });
   });

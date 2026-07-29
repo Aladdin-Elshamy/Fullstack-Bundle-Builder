@@ -3,13 +3,13 @@ interface Product {
   category: "camera" | "sensor" | "accessory" | "plan";
   name: string;
   description: string;
-  image: string;
+  image?: string;
   price: number;
   originalPrice?: number;
   discount?: number;
-  colors?: {
-    name: string;
-    value: string;
+  options?: {
+    variant_name: string;
+    color_value: string;
     image?: string;
   }[];
   required?: boolean;

@@ -1,8 +1,13 @@
+import { useMemo } from "react";
 import FeatureLine from "../components/FeatureLine";
 import Checkout from "./Checkout";
 import ChosenProducts from "./ChosenProducts";
+import { getSelectedLines } from "#lib/selectors";
+import { useBundleStore } from "../../../store/useBundleStore";
 
 export default function ReviewPanel() {
+  const quantities = useBundleStore((state) => state.quantities);
+  const lines = useMemo(() => getSelectedLines(quantities), [quantities]);
   return (
     <div className="px-4 pt-3.5 sm:pt-0 xl:my-0 md:rounded-xl sm:pb-8 bg-[#EDF4FF] xl:max-w-md h-fit">
       <span className="uppercase sm:hidden text-[#484848] tracking-widest font-medium text-xs">
@@ -21,7 +26,7 @@ export default function ReviewPanel() {
           <ChosenProducts productType="Sensors" />
           <ChosenProducts productType="Accessories" />
           <ChosenProducts productType="Plan" />
-          <FeatureLine />
+          {lines.length > 0 && <FeatureLine />}
         </div>
         <Checkout />
       </div>

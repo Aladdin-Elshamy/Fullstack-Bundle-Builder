@@ -43,15 +43,31 @@ const cameraProducts: Product[] = [
     category: "camera",
     name: "Wyze Cam v4",
     description: "The clearest Wyze Cam ever made.",
-    image: "/images/products/cam-v4.png",
+    image:
+      "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785320985/camera-white_ya8ooq.webp",
     price: 27.98,
     originalPrice: 35.98,
     discount: 22,
     quantity: 1,
-    colors: [
-      { name: "White", value: "#ffffff" },
-      { name: "Grey", value: "#bdbdbd" },
-      { name: "Black", value: "#000000" },
+    options: [
+      {
+        variant_name: "White",
+        color_value: "#ffffff",
+        image:
+          "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785320985/camera-white_ya8ooq.webp",
+      },
+      {
+        variant_name: "Grey",
+        color_value: "#bdbdbd",
+        image:
+          "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785330483/gJXkVHNwfjV9uLFJpwgyG9-970-80-removebg-preview_n91tdb.webp",
+      },
+      {
+        variant_name: "Black",
+        color_value: "#000000",
+        image:
+          "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785330065/64426d73-5b61-40ed-9235-1c40c26e4314_k7ztzq.webp",
+      },
     ],
   },
   {
@@ -59,46 +75,88 @@ const cameraProducts: Product[] = [
     category: "camera",
     name: "Wyze Cam Pan v3",
     description: "360° pan and 180° tilt security camera.",
-    image: "/images/products/cam-pan-v3.png",
-    price: 47.98,
-    originalPrice: 57.98,
+    image:
+      "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785205579/cam-pan_rjj5ed.png",
+    price: 34.98,
+    originalPrice: 39.98,
     discount: 17,
     quantity: 0,
-    colors: [
-      { name: "White", value: "#ffffff" },
-      { name: "Black", value: "#000000" },
+    options: [
+      {
+        variant_name: "White",
+        color_value: "#ffffff",
+        image:
+          "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785205579/cam-pan_rjj5ed.png",
+      },
+      {
+        variant_name: "Black",
+        color_value: "#000000",
+        image:
+          "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785330065/Wyze_Cam_Pan_v3_Main_v8-11_1_1_oplmyz.webp",
+      },
     ],
   },
   {
     id: "cam-floodlight-v2",
     category: "camera",
     name: "Wyze Cam Floodlight v2",
-    description: "2K floodlight camera with a 160° viewing angle.",
-    image: "/images/products/floodlight-v2.png",
+    description:
+      "2K floodlight camera with a 160° wide-angle view for your garage.",
+    image:
+      "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785330770/cam-flood-white-removebg-preview_xtqme2.png",
     price: 69.98,
     originalPrice: 89.98,
     discount: 22,
     quantity: 0,
-    colors: [{ name: "White", value: "#ffffff" }],
+    options: [
+      {
+        variant_name: "White",
+        color_value: "#ffffff",
+        image:
+          "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785330770/cam-flood-white-removebg-preview_xtqme2.png",
+      },
+      {
+        variant_name: "Black",
+        color_value: "#000000",
+        image:
+          "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785330769/cam-flood-black-removebg-preview_mgwqcx.png",
+      },
+    ],
   },
   {
     id: "cam-duo-doorbell",
     category: "camera",
     name: "Wyze Duo Cam Doorbell",
     description: "Two cameras. Two views. Double the porch protection.",
-    image: "/images/products/duo-doorbell.png",
+    image:
+      "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785320986/cam-doorbell_foubc1.webp",
     price: 69.98,
     quantity: 0,
-    colors: [{ name: "Black", value: "#000000" }],
   },
   {
     id: "battery-cam-pro",
     category: "camera",
     name: "Wyze Battery Cam Pro",
-    description: "Protect anywhere. No power outlet required.",
-    image: "/images/products/battery-cam-pro.png",
+    description:
+      "Protect anywhere. See everything in 2.5K HDR. No power outlet or electrician needed.",
+    image:
+      "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785320986/cam-pro-white_zzkrns.webp",
     price: 89.98,
     quantity: 0,
+    options: [
+      {
+        variant_name: "White",
+        color_value: "#ffffff",
+        image:
+          "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785320986/cam-pro-white_zzkrns.webp",
+      },
+      {
+        variant_name: "Black",
+        color_value: "#000000",
+        image:
+          "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785320987/cam-pro-black_v0nyk8.webp",
+      },
+    ],
   },
 ];
 
@@ -108,7 +166,8 @@ const sensorProducts: Product[] = [
     category: "sensor",
     name: "Wyze Sense Hub",
     description: "Required to connect Wyze Sense devices.",
-    image: "/images/products/sense-hub.png",
+    image:
+      "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785320986/sense-hub_jhwoab.webp",
     price: 0,
     originalPrice: 29.92,
     required: true,
@@ -119,26 +178,9 @@ const sensorProducts: Product[] = [
     category: "sensor",
     name: "Wyze Sense Motion Sensor",
     description: "Detects motion and triggers automations.",
-    image: "/images/products/motion-sensor.png",
+    image:
+      "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785320986/sense-motion_cfgcdo.webp",
     price: 29.99,
-    quantity: 0,
-  },
-  {
-    id: "entry-sensor",
-    category: "sensor",
-    name: "Wyze Sense Entry Sensor",
-    description: "Know when doors and windows open.",
-    image: "/images/products/entry-sensor.png",
-    price: 23.99,
-    quantity: 0,
-  },
-  {
-    id: "climate-sensor",
-    category: "sensor",
-    name: "Wyze Climate Sensor",
-    description: "Monitor temperature and humidity.",
-    image: "/images/products/climate-sensor.png",
-    price: 19.99,
     quantity: 0,
   },
 ];
@@ -149,26 +191,19 @@ const accessoryProducts: Product[] = [
     category: "accessory",
     name: "Wyze MicroSD Card (256GB)",
     description: "Continuous local recording.",
-    image: "/images/products/microsd-256.png",
+    image:
+      "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785320985/micro-sd_m8wbla.webp",
     price: 41.96,
     quantity: 0,
   },
   {
-    id: "outdoor-power-adapter",
+    id: "micro-sd-512",
     category: "accessory",
-    name: "Outdoor Power Adapter",
-    description: "Weather-resistant power supply.",
-    image: "/images/products/power-adapter.png",
-    price: 14.99,
-    quantity: 0,
-  },
-  {
-    id: "mounting-kit",
-    category: "accessory",
-    name: "Universal Mounting Kit",
-    description: "Mount your cameras almost anywhere.",
-    image: "/images/products/mounting-kit.png",
-    price: 19.99,
+    name: "Wyze MicroSD Card (512GB)",
+    description: "Large local recording.",
+    image:
+      "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785320985/micro-sd_m8wbla.webp",
+    price: 50,
     quantity: 0,
   },
 ];
@@ -180,7 +215,6 @@ const planProducts: Product[] = [
     name: "Cam Unlimited",
     description:
       "Unlimited cloud recording for all your Wyze cameras with AI-powered event detection.",
-    image: "/images/plans/cam-unlimited.png",
     price: 9.99,
     quantity: 0,
   },
@@ -190,7 +224,6 @@ const planProducts: Product[] = [
     name: "Cam Plus",
     description:
       "Smart AI detection, unlimited event video length, and cloud recording for one camera.",
-    image: "/images/plans/cam-plus.png",
     price: 2.99,
     quantity: 0,
   },
@@ -200,7 +233,6 @@ const planProducts: Product[] = [
     name: "Home Monitoring",
     description:
       "24/7 professional home monitoring with emergency dispatch and Wyze Sense support.",
-    image: "/images/plans/home-monitoring.png",
     price: 9.99,
     quantity: 0,
   },

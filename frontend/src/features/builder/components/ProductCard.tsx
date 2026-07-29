@@ -11,6 +11,7 @@ import { useState } from "react";
 import { useBundleStore } from "../../../store/useBundleStore";
 import { getQuantity } from "../../../shared/lib/selectors";
 import type { Product } from "../../../shared/types/components";
+import PlanIcon from "#icons/PlanIcon";
 
 type ProductCardProps = {
   product: Product;
@@ -21,14 +22,23 @@ export default function ProductCard({
   product,
   isLastAndOdd,
 }: ProductCardProps) {
-  const [activeColor, setActiveColor] = useState<string | undefined>(
-    product.colors?.[0]?.name,
-  );
+  const [activeVariant, setActiveVariant] = useState<
+    | {
+        variant_name: string;
+        color_value: string;
+        image?: string;
+      }
+    | undefined
+  >(product.options?.[0]);
   const { ref, dimensions } = useElementDimensions();
-  const hasColors = Boolean(product.colors?.length);
+  const hasOptions = Boolean(product.options?.length);
   const quantities = useBundleStore((state) => state.quantities);
   const setQuantity = useBundleStore((state) => state.setQuantity);
-  const quantity = getQuantity(quantities, product, activeColor);
+  const quantity = getQuantity(
+    quantities,
+    product,
+    activeVariant?.variant_name,
+  );
   const isPlanSelected = product.category === "plan" && quantity > 0;
   const isSelected =
     product.category === "plan" ? isPlanSelected : quantity > 0;
@@ -44,16 +54,20 @@ export default function ProductCard({
     >
       {/* ── Image zone ── */}
       <div
-        className="relative overflow-hidden flex items-center justify-center h-80"
+        className={`relative overflow-hidden ${product.category === "plan" ? "bg-[#e7effd] w-full xl:w-32" : ""} flex items-center justify-center h-80`}
         style={{
           height: window.innerWidth >= 640 ? dimensions?.height : undefined,
         }}
       >
-        <img
-          src={product.image}
-          className="drop-shadow-2xl px-2.5 pt-2.5 py-5 transition-transform duration-500 ease-out group-hover/card:scale-105 xl:max-h-full"
-          alt={product.name}
-        />
+        {product.category === "plan" ? (
+          <PlanIcon className="w-20! h-20!" />
+        ) : (
+          <img
+            src={activeVariant?.image || product.image}
+            className="drop-shadow-2xl px-2.5 pt-2.5 py-5 transition-transform duration-500 ease-out group-hover/card:scale-105 xl:max-h-full"
+            alt={product.name}
+          />
+        )}
 
         {product.discount ? (
           <Badge className="absolute top-3 left-3 text-xs font-semibold">
@@ -76,33 +90,33 @@ export default function ProductCard({
             </p>
           </div>
 
-          {hasColors ? (
+          {hasOptions ? (
             <div className="flex flex-wrap gap-1.5 pt-2.5">
-              {product.colors?.map((color) => (
+              {product.options?.map((option) => (
                 <button
-                  key={color.name}
+                  key={option.variant_name}
                   type="button"
-                  onClick={() => setActiveColor(color.name)}
+                  onClick={() => setActiveVariant(option)}
                   className={cn(
                     "basis-20 flex justify-around items-center rounded-xs text-xs font-medium h-10 border transition-all duration-150 shrink-0",
-                    activeColor === color.name
+                    activeVariant?.variant_name === option.variant_name
                       ? "border-[#0AA288] bg-[#1DF0BB0A]"
                       : "text-muted-foreground hover:border-foreground/50 hover:text-foreground",
                   )}
                 >
-                  {color.image ? (
+                  {option.image ? (
                     <img
                       className="max-w-full w-7 h-7 object-contain"
-                      src={color.image}
-                      alt={color.name}
+                      src={option.image}
+                      alt={option.variant_name}
                     />
                   ) : (
                     <span
                       className="w-7 h-7 rounded-full border"
-                      style={{ backgroundColor: color.value }}
+                      style={{ backgroundColor: option.color_value }}
                     />
                   )}
-                  {color.name}
+                  {option.variant_name}
                 </button>
               ))}
             </div>
@@ -130,7 +144,13 @@ export default function ProductCard({
           ) : (
             <div className="flex items-start gap-1">
               <Button
-                onClick={() => setQuantity(product, activeColor, quantity - 1)}
+                onClick={() =>
+                  setQuantity(
+                    product,
+                    activeVariant?.variant_name,
+                    quantity - 1,
+                  )
+                }
                 disabled={quantity === 0}
                 className="bg-[#F0F4F7] w-7! h-7! disabled:border-[#CED6DE]! border-4 border-[#F0F4F7] hover:bg-gray-300 hover:border-gray-300"
               >
@@ -140,7 +160,13 @@ export default function ProductCard({
                 {quantity}
               </p>
               <Button
-                onClick={() => setQuantity(product, activeColor, quantity + 1)}
+                onClick={() =>
+                  setQuantity(
+                    product,
+                    activeVariant?.variant_name,
+                    quantity + 1,
+                  )
+                }
                 className="bg-[#F0F4F7] w-7! h-7! disabled:border-[#CED6DE]! border-4 border-[#F0F4F7]  hover:bg-gray-300 hover:border-gray-300"
               >
                 <AddIcon className="w-2! h-2! disabled:text-[#CED6DE]! text-[#525963]" />

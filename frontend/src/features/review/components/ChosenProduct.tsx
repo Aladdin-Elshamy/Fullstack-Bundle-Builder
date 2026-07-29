@@ -16,11 +16,11 @@ export default function ChosenProduct({ line }: { line: BundleLine }) {
     <div className="flex items-center justify-between gap-3">
       {/* Product Info */}
       <div className="flex items-center gap-3 min-w-0">
-        <div className="w-16 h-14 rounded-md bg-white p-2 shrink-0">
+        <div className="w-12 h-12 flex items-center justify-center rounded-md bg-white p-2 shrink-0">
           <img
             src={line.variantImage ?? product.image}
             alt={product.name}
-            className="h-full w-full object-contain"
+            className="w-full object-contain"
           />
         </div>
         <div className="min-w-0">
