@@ -5,7 +5,7 @@ import {
   AccordionTrigger,
 } from "#components/ui/accordion";
 import ArrowUpIcon from "#icons/ArrowUpIcon";
-import { Fragment } from "react";
+import { useRef } from "react";
 import AccordionProductsSection from "./AccordionProductsSection";
 import { ACCORDION_SECTIONS } from "../constants";
 import { useBuilderAccordion } from "../hooks/useBuilderAccordion";
@@ -26,6 +26,7 @@ export default function Builder() {
   const { openItems, setOpenItems, handleNext } = useBuilderAccordion();
   const quantities = useBundleStore((state) => state.quantities);
   const { productLookup } = useProductLookup();
+  const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   return (
     <Accordion
@@ -47,7 +48,12 @@ export default function Builder() {
         );
 
         return (
-          <Fragment key={item.value}>
+          <div
+            key={item.value}
+            ref={(element) => {
+              sectionRefs.current[item.value] = element;
+            }}
+          >
             <p
               className={`${isItemOpen ? "bg-[#EDF4FF] md:rounded-t-xl! md:not-first:mt-3.5" : ""} ps-4 md:first:pt-3.5 pt-3 pb-1.5 font-medium text-xs uppercase tracking-widest text-[#484848] `}
             >
@@ -83,11 +89,20 @@ export default function Builder() {
                   section={sectionValue}
                   step={index + 1}
                   isOpen={isItemOpen}
-                  onNext={() => handleNext(index)}
+                  onNext={() =>
+                    handleNext(
+                      index,
+                      ACCORDION_SECTIONS[index + 1]
+                        ? sectionRefs.current[
+                            ACCORDION_SECTIONS[index + 1].value
+                          ]
+                        : null,
+                    )
+                  }
                 />
               </AccordionContent>
             </AccordionItem>
-          </Fragment>
+          </div>
         );
       })}
     </Accordion>
