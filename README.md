@@ -4,6 +4,10 @@ A fullstack take-home prototype for building a personalized home security bundle
 
 Shoppers can choose cameras, select a monitoring plan, add sensors, add extra protection, review their configured system, adjust quantities from either side of the UI, and save their configuration for later. The application is responsive across screen sizes and uses React Query caching for fetched product data.
 
+## Live Demo
+
+**Try it here:** https://fullstack-bundle-builder.onrender.com/
+
 ## Features
 
 ### Multi-step bundle builder
