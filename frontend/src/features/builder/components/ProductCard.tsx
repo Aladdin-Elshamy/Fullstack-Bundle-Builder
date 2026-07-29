@@ -57,14 +57,14 @@ export default function ProductCard({
         "w-full sm:max-w-70 xl:max-w-full rounded-2xl overflow-hidden p-0 gap-0 group/card flex flex-col xl:flex-row items-start border transition-colors",
         isSelected && "border-primary shadow-[0_0_0_1px_var(--primary)]",
         isLastAndOdd && "mx-auto w-fit last:xl:col-span-2",
-        product.category === "plan" && "last:mb-1",
+        product.category === "plan" && "last:mb-1 items-stretch",
       )}
     >
       {/* ── Image zone ── */}
       <div
-        className={`relative overflow-hidden ${product.category === "plan" ? "bg-[#e7effd] w-full xl:w-32" : ""} flex items-center justify-center h-80`}
+        className={`relative overflow-hidden ${product.category === "plan" ? "bg-[#e7effd] w-full xl:w-32 h-56 xl:h-auto" : ""} flex items-center justify-center`}
         style={{
-          height: window.innerWidth >= 640 ? dimensions?.height : undefined,
+          height: window.innerWidth >= 640 && product.category !== 'plan' ? dimensions?.height : undefined,
         }}
       >
         {product.category === "plan" ? (
@@ -87,7 +87,7 @@ export default function ProductCard({
 
       {/* Info zone */}
       <div className="flex flex-col w-full" ref={ref}>
-        <CardContent className="px-2.5 sm:pt-4 pb-2.5 ">
+        <CardContent className="px-2.5 pt-4 pb-2.5 ">
           {/* Brand + name */}
           <div className="min-w-0 space-y-2">
             <h3 className="text-lg font-semibold">{product.name}</h3>

@@ -46,7 +46,7 @@ export default function ChosenProduct({ line }: ChosenProductProps) {
           )}
         </div>
         <div className="min-w-0">
-          <p className="font-medium text-[#0B0D10]">
+          <p className="font-medium text-[#0B0D10] max-w-40">
             {product.name}{" "}
             {required ? (
               <>
