@@ -70,6 +70,7 @@ export default function ChosenProduct({ line }: { line: BundleLine }) {
               <button
                 onClick={() => setQuantity(product, variantName, quantity - 1)}
                 disabled={isDecrementDisabled}
+                aria-label={`Decrease quantity of ${variantName ? `${variantName} ` : ""}${product.name}`}
                 className="bg-white flex justify-center items-center disabled:border-[#CED6DE]! disabled:bg-[#F1F1F2] border-2 w-6! h-6! rounded border-white hover:bg-gray-300 hover:border-gray-300"
               >
                 <MinusIcon className="w-2.5! h-2.5! disabled:text-[#CED6DE]! text-[#575757]! " />
@@ -82,6 +83,7 @@ export default function ChosenProduct({ line }: { line: BundleLine }) {
               <Button
                 onClick={() => setQuantity(product, variantName, quantity + 1)}
                 disabled={isIncrementDisabled}
+                aria-label={`Increase quantity of ${variantName ? `${variantName} ` : ""}${product.name}`}
                 className="bg-white disabled:border-[#CED6DE]! disabled:bg-[#F1F1F2] border-2 w-6! h-6! rounded border-white hover:bg-gray-300 hover:border-gray-300 flex items-center justify-center"
               >
                 <AddIcon className="w-2.5! h-2.5! disabled:text-[#CED6DE]! text-[#575757]" />

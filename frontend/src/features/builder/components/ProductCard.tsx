@@ -3,16 +3,11 @@
 import { Badge } from "#components/ui/badge";
 import { Button } from "#components/ui/button";
 import { Card, CardContent, CardFooter } from "#components/ui/card";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "#components/ui/tooltip";
 import useElementDimensions from "#hooks/useElementDimensions";
 import AddIcon from "#icons/AddIcon";
 import MinusIcon from "#icons/MinusIcon";
 import { cn } from "#lib/utils";
-import { type ReactNode, useState } from "react";
+import {  useState } from "react";
 import { useBundleStore } from "../../../store/useBundleStore";
 import {
   canIncrementProductQuantity,
@@ -20,6 +15,7 @@ import {
 } from "../../../shared/lib/selectors";
 import type { Product } from "../../../shared/types/components";
 import PlanIcon from "#icons/PlanIcon";
+import DisabledStepperTooltip from "#components/DisabledStepperTooltip";
 
 type ProductCardProps = {
   product: Product;
@@ -27,26 +23,7 @@ type ProductCardProps = {
   exclusiveProductIds?: string[];
 };
 
-function DisabledStepperTooltip({
-  message,
-  children,
-}: {
-  message?: string;
-  children: ReactNode;
-}) {
-  if (!message) {
-    return children;
-  }
 
-  return (
-    <Tooltip>
-      <TooltipTrigger render={<span className="inline-flex" tabIndex={0} />}>
-        {children}
-      </TooltipTrigger>
-      <TooltipContent>{message}</TooltipContent>
-    </Tooltip>
-  );
-}
 
 export default function ProductCard({
   product,
@@ -135,6 +112,7 @@ export default function ProductCard({
                 <button
                   key={option.variant_name}
                   type="button"
+                  aria-label={`Select ${option.variant_name} option for ${product.name}`}
                   onClick={() => setActiveVariant(option)}
                   className={cn(
                     "basis-20 flex justify-around items-center rounded-xs text-xs font-medium h-10 border transition-all duration-150 shrink-0",
@@ -147,7 +125,7 @@ export default function ProductCard({
                     <img
                       className="max-w-full w-7 h-7 object-contain"
                       src={option.image}
-                      alt={option.variant_name}
+                      alt={`${product.name} ${option.variant_name} option`}
                     />
                   ) : (
                     <span
@@ -197,6 +175,7 @@ export default function ProductCard({
                     )
                   }
                   disabled={isDecrementDisabled}
+                  aria-label={`Decrease quantity of ${activeVariant?.variant_name ? `${activeVariant.variant_name} ` : ""}${product.name}`}
                   className="bg-[#F0F4F7] w-7! h-7! disabled:border-[#CED6DE]! border-4 border-[#F0F4F7] hover:bg-gray-300 hover:border-gray-300"
                 >
                   <MinusIcon className="w-2! h-2! disabled:text-[#CED6DE]! text-[#525963]! " />
@@ -214,6 +193,7 @@ export default function ProductCard({
                       quantity + 1,
                     )
                   }
+                  aria-label={`Increase quantity of ${activeVariant?.variant_name ? `${activeVariant.variant_name} ` : ""}${product.name}`}
                   disabled={isIncrementDisabled}
                   className="bg-[#F0F4F7] w-7! h-7! disabled:border-[#CED6DE]! border-4 border-[#F0F4F7]  hover:bg-gray-300 hover:border-gray-300"
                 >
