@@ -74,6 +74,7 @@ export default function ProductCard({
             src={activeVariant?.image || product.image}
             className="drop-shadow-2xl px-2.5 pt-2.5 py-5 transition-transform duration-500 ease-out group-hover/card:scale-105 xl:max-h-full"
             alt={product.name}
+            fetchPriority={product.category === "camera" ? "high" : "low"}
           />
         )}
 
