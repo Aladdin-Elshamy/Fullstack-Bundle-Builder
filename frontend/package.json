@@ -50,6 +50,9 @@
     "#components/*": "./src/shared/components/*.tsx",
     "#icons/*": "./src/shared/icons/*.tsx",
     "#lib/*": "./src/shared/lib/*.ts",
-    "#hooks/*": "./src/shared/hooks/*.ts"
+    "#hooks/*": "./src/shared/hooks/*.ts",
+    "#types/*": "./src/shared/types/*.ts",
+    "#store/*": "./src/store/*.ts",
+    "#images/*": "./src/assets/images/*.webp"
   }
 }

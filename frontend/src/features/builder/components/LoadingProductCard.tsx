@@ -1,10 +1,7 @@
 import { Card, CardContent, CardFooter } from "#components/ui/card";
 import { Skeleton } from "#components/ui/skeleton";
 import { cn } from "#lib/utils";
-
-type LoadingProductCardProps = {
-  isLastAndOdd?: boolean;
-};
+import type { LoadingProductCardProps } from "../types";
 
 export default function LoadingProductCard({
   isLastAndOdd,

@@ -5,16 +5,15 @@ import {
   AccordionTrigger,
 } from "#components/ui/accordion";
 import ArrowUpIcon from "#icons/ArrowUpIcon";
-import { useQuery } from "@tanstack/react-query";
-import { Fragment, useState } from "react";
-import { getSelectedCountByCategory } from "../../../shared/lib/selectors";
-import type { Product } from "../../../shared/types/components";
-import { useBundleStore } from "../../../store/useBundleStore";
-import { ACCORDION_SECTIONS, type BuilderSectionValue } from "../constants";
-import LoadingProductCard from "../components/LoadingProductCard";
-import { useProductLookup } from "../../../shared/hooks/useProductLookup";
-import { fetchProductsBySection } from "../services/products";
-import Products from "./Products";
+import { Fragment } from "react";
+import AccordionProductsSection from "./AccordionProductsSection";
+import { ACCORDION_SECTIONS } from "../constants";
+import { useBuilderAccordion } from "../hooks/useBuilderAccordion";
+import { useProductLookup } from "#hooks/useProductLookup";
+import { getSelectedCountByCategory } from "#lib/selectors";
+import type { BuilderSectionValue } from "../types";
+import { useBundleStore } from "#store/useBundleStore";
+import type { Product } from "#types/index";
 
 const categoryBySection = {
   cameras: "camera",
@@ -23,75 +22,10 @@ const categoryBySection = {
   protection: "accessory",
 } as const satisfies Record<BuilderSectionValue, Product["category"]>;
 
-type AccordionProductsSectionProps = {
-  section: BuilderSectionValue;
-  step: number;
-  isOpen: boolean;
-  onNext: () => void;
-};
-
-function AccordionProductsSection({
-  section,
-  step,
-  isOpen,
-  onNext,
-}: AccordionProductsSectionProps) {
-  const {
-    data: products = [],
-    isLoading,
-    isFetching,
-    isError,
-  } = useQuery({
-    queryKey: ["products", section],
-    queryFn: () => fetchProductsBySection(section),
-    enabled: isOpen,
-  });
-
-  if (isLoading || (isOpen && isFetching && products.length === 0)) {
-    const loadingCards = Array.from({ length: section === "plan" ? 3 : 4 });
-
-    return (
-      <div className="grid grid-cols-1 justify-stretch xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5 xl:grid-cols-2 p-0.5">
-        {loadingCards.map((_, index) => (
-          <LoadingProductCard
-            key={index}
-            isLastAndOdd={
-              index === loadingCards.length - 1 && (index + 1) % 2 !== 0
-            }
-          />
-        ))}
-      </div>
-    );
-  }
-
-  if (isError) {
-    return (
-      <div className="py-10 text-center text-sm font-medium text-[#D8392B]">
-        Failed to load products.
-      </div>
-    );
-  }
-
-  if (!isOpen) {
-    return null;
-  }
-
-  return <Products products={products} step={step} onNext={onNext} />;
-}
-
 export default function Builder() {
-  const [openItems, setOpenItems] = useState<string[] | undefined>(["cameras"]);
+  const { openItems, setOpenItems, handleNext } = useBuilderAccordion();
   const quantities = useBundleStore((state) => state.quantities);
   const { productLookup } = useProductLookup();
-  const handleNext = (currentIndex: number) => {
-    const nextSection = ACCORDION_SECTIONS[currentIndex + 1]?.value;
-
-    if (!nextSection) {
-      return;
-    }
-
-    setOpenItems([nextSection]);
-  };
 
   return (
     <Accordion

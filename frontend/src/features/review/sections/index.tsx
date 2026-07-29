@@ -1,18 +1,10 @@
-import { useMemo } from "react";
-import { getSelectedLines } from "#lib/selectors";
-import { useProductLookup } from "../../../shared/hooks/useProductLookup";
-import { useBundleStore } from "../../../store/useBundleStore";
 import FeatureLine from "../components/FeatureLine";
+import { useReviewPanel } from "../hooks/useReviewPanel";
 import Checkout from "./Checkout";
 import ChosenProducts from "./ChosenProducts";
 
 export default function ReviewPanel() {
-  const quantities = useBundleStore((state) => state.quantities);
-  const { productLookup } = useProductLookup();
-  const lines = useMemo(
-    () => getSelectedLines(quantities, productLookup),
-    [quantities, productLookup],
-  );
+  const { hasSelectedLines } = useReviewPanel();
 
   return (
     <div className="px-4 pt-3.5 sm:pt-0 xl:my-0 md:rounded-xl sm:pb-8 bg-[#EDF4FF] xl:max-w-md h-fit">
@@ -32,7 +24,7 @@ export default function ReviewPanel() {
           <ChosenProducts productType="Sensors" />
           <ChosenProducts productType="Accessories" />
           <ChosenProducts productType="Plan" />
-          {lines.length > 0 && <FeatureLine />}
+          {hasSelectedLines && <FeatureLine />}
         </div>
         <Checkout />
       </div>

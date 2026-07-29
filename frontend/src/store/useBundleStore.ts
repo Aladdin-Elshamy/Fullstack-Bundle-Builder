@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { getLineKey, getMaxProductQuantity } from "../shared/lib/selectors";
-import type { Product } from "../shared/types/components";
+import type { Product } from "../shared/types";
 
 const STORAGE_KEY = "wyze-security-system";
 

@@ -1,42 +1,11 @@
-import { useMemo } from "react";
-import {
-  getSelectedLines,
-  type BundleLine,
-} from "../../../shared/lib/selectors";
-import { useBundleStore } from "../../../store/useBundleStore";
-import { useProductLookup } from "../../../shared/hooks/useProductLookup";
 import ChosenProduct from "../components/ChosenProduct";
-
-const categoryByProductType = {
-  Cameras: "camera",
-  Sensors: "sensor",
-  Accessories: "accessory",
-  Plan: "plan",
-} as const;
-
-type ChosenProductsProps = {
-  productType?: keyof typeof categoryByProductType;
-};
+import { useChosenProducts } from "../hooks/useChosenProducts";
+import type { ChosenProductsProps } from "../types";
 
 export default function ChosenProducts({ productType }: ChosenProductsProps) {
-  const quantities = useBundleStore((state) => state.quantities);
-  const { productLookup } = useProductLookup();
-  const lines = useMemo(
-    () => getSelectedLines(quantities, productLookup),
-    [quantities, productLookup],
-  );
-  const filteredLines = useMemo(
-    () =>
-      productType
-        ? lines.filter(
-            (line: BundleLine) =>
-              line.product.category === categoryByProductType[productType],
-          )
-        : [],
-    [lines, productType],
-  );
+  const { filteredLines, hasProducts } = useChosenProducts(productType);
 
-  if (!productType || filteredLines.length === 0) {
+  if (!hasProducts || !productType) {
     return null;
   }
 

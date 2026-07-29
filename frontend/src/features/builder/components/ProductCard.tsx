@@ -1,29 +1,21 @@
 "use client";
 
+import DisabledStepperTooltip from "#components/DisabledStepperTooltip";
 import { Badge } from "#components/ui/badge";
 import { Button } from "#components/ui/button";
 import { Card, CardContent, CardFooter } from "#components/ui/card";
 import useElementDimensions from "#hooks/useElementDimensions";
 import AddIcon from "#icons/AddIcon";
 import MinusIcon from "#icons/MinusIcon";
+import PlanIcon from "#icons/PlanIcon";
 import { cn } from "#lib/utils";
-import {  useState } from "react";
-import { useBundleStore } from "../../../store/useBundleStore";
+import { useState } from "react";
 import {
   canIncrementProductQuantity,
   getQuantity,
 } from "../../../shared/lib/selectors";
-import type { Product } from "../../../shared/types/components";
-import PlanIcon from "#icons/PlanIcon";
-import DisabledStepperTooltip from "#components/DisabledStepperTooltip";
-
-type ProductCardProps = {
-  product: Product;
-  isLastAndOdd: boolean;
-  exclusiveProductIds?: string[];
-};
-
-
+import { useBundleStore } from "../../../store/useBundleStore";
+import type { ProductCardProps } from "../types";
 
 export default function ProductCard({
   product,

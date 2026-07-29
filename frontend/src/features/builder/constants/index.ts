@@ -26,7 +26,6 @@ const ACCORDION_SECTIONS = [
   },
 ] as const;
 
-type BuilderSectionValue = (typeof ACCORDION_SECTIONS)[number]["value"];
+
 
 export { ACCORDION_SECTIONS };
-export type { BuilderSectionValue };

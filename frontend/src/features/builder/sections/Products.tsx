@@ -1,16 +1,13 @@
 import { Button } from "#components/ui/button";
-import type { Product } from "../../../shared/types/components";
+import type { ProductsProps } from "../types";
 import ProductCard from "../components/ProductCard";
+import type { Product } from "#types/index";
 
 export default function Products({
   step,
   products,
   onNext,
-}: {
-  step: number;
-  products: Product[];
-  onNext?: () => void;
-}) {
+}: ProductsProps) {
   const nextSection =
     step === 1 ? "plan" : step === 2 ? "sensors" : step === 3 && "accessories";
   const visibleProducts = products.filter((product) => !product.required);

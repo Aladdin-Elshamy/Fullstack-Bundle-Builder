@@ -3,15 +3,11 @@ import { Button } from "#components/ui/button";
 import AddIcon from "#icons/AddIcon";
 import MinusIcon from "#icons/MinusIcon";
 import PlanIcon from "#icons/PlanIcon";
-import {
-  canIncrementProductQuantity,
-  type BundleLine,
-} from "../../../shared/lib/selectors";
-import { useBundleStore } from "../../../store/useBundleStore";
+import { canIncrementProductQuantity } from "#lib/selectors";
+import { useBundleStore } from "#store/useBundleStore";
+import type { ChosenProductProps } from "../types";
 
-
-
-export default function ChosenProduct({ line }: { line: BundleLine }) {
+export default function ChosenProduct({ line }: ChosenProductProps) {
   const setQuantity = useBundleStore((state) => state.setQuantity);
   const { product, quantity, variantName, required } = line;
   const isDecrementDisabled = required || quantity === 0;
@@ -36,7 +32,9 @@ export default function ChosenProduct({ line }: { line: BundleLine }) {
     <div className="flex items-center justify-between gap-3">
       {/* Product Info */}
       <div className="flex items-center gap-3 min-w-0">
-        <div className={`${product.category === "plan" ? "bg-[#e7effd]" : "bg-white"} w-12 h-12 flex items-center justify-center rounded-md p-2 shrink-0`}>
+        <div
+          className={`${product.category === "plan" ? "bg-[#e7effd]" : "bg-white"} w-12 h-12 flex items-center justify-center rounded-md p-2 shrink-0`}
+        >
           {product.category === "plan" ? (
             <PlanIcon className="w-20! h-20!" />
           ) : (

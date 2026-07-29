@@ -1,29 +1,17 @@
 import { Badge } from "#components/ui/badge";
 import { Button } from "#components/ui/button";
-import { useMemo } from "react";
-import toast from "react-hot-toast";
-import SatisfactionBadge from "../../../assets/images/satisfaction-badge.webp";
-import { getSelectedLines, getTotals } from "../../../shared/lib/selectors";
-import { useBundleStore } from "../../../store/useBundleStore";
-import { useProductLookup } from "../../../shared/hooks/useProductLookup";
+import SatisfactionBadge from "#images/satisfaction-badge.webp";
+import { useCheckoutTotals } from "../hooks/useCheckoutTotals";
 
 export default function Checkout() {
-  const quantities = useBundleStore((state) => state.quantities);
-  const saveSystem = useBundleStore((state) => state.saveSystem);
-  const { productLookup } = useProductLookup();
-  const totals = useMemo(
-    () => getTotals(getSelectedLines(quantities, productLookup)),
-    [quantities, productLookup],
-  );
-  const totalSavings = totals.savings + totals.monthlySavings;
-  const OriginalMonthlyPrice = totals.monthlyTotal + totals.monthlySavings
-  const hasSavings = totalSavings > 0;
-  const financingAmount = Math.max(totals.total / 12 + totals.monthlyTotal, 0);
-
-  const handleSaveSystem = () => {
-    saveSystem();
-    toast.success("Your security system was saved.");
-  };
+  const {
+    totals,
+    totalSavings,
+    originalMonthlyPrice,
+    hasSavings,
+    financingAmount,
+    handleSaveSystem,
+  } = useCheckoutTotals();
 
   return (
     <section className="mt-2.5 sm:mt-0 text-center sm:w-2/5 lg:w-full">
@@ -47,7 +35,7 @@ export default function Checkout() {
         <div className="flex items-end gap-2 col-start-2 justify-self-end self-start">
           {hasSavings ? (
             <span className="text-[#6F7882] font-medium text-lg line-through decoration-1">
-              ${(totals.compareAtTotal + OriginalMonthlyPrice).toFixed(2)}
+              ${(totals.compareAtTotal + originalMonthlyPrice).toFixed(2)}
             </span>
           ) : null}
 

@@ -1,5 +1,5 @@
-import type { Product } from "../../../shared/types/components";
-import type { BuilderSectionValue } from "../constants";
+import type { Product } from "#types/index";
+import type { BuilderSectionValue } from "../types";
 
 const productApiPathBySection = {
   cameras: "cameras",

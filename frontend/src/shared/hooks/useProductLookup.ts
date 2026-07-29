@@ -1,10 +1,9 @@
 import { useMemo } from "react";
 import { useQueries } from "@tanstack/react-query";
-import type { ProductLookup } from "../lib/selectors";
-import type { Product } from "../types/components";
 import { useBundleStore } from "../../store/useBundleStore";
 import { ACCORDION_SECTIONS } from "../../features/builder/constants";
 import { fetchProductsBySection } from "../../features/builder/services/products";
+import type { Product, ProductLookup } from "#types/index";
 
 export function useProductLookup() {
   const hasSavedSystem = useBundleStore((state) => state.hasSavedSystem);

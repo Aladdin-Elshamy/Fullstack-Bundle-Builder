@@ -1,24 +1,5 @@
-import type { Product } from "../types/components";
-export type ProductLookup = Record<string, Product>;
+import type { BundleLine, BundleTotals, Product, ProductLookup } from "../types";
 
-export type BundleLine = {
-  key: string;
-  product: Product;
-  quantity: number;
-  variantName?: string;
-  variantValue?: string;
-  variantImage?: string;
-  required?: boolean;
-};
-
-export type BundleTotals = {
-  total: number;
-  compareAtTotal: number;
-  savings: number;
-  monthlyTotal: number;
-  monthlyCompareAtTotal: number;
-  monthlySavings: number;
-};
 
 export const getProductById = (products: ProductLookup, productId: string) =>
   products[productId];
