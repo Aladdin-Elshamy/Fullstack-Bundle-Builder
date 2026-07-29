@@ -43,11 +43,11 @@ export function useBuilderAccordion() {
 
       window.scrollTo({
         top: targetTop,
-        behavior: "smooth",
+        behavior: "auto",
       });
 
       clearPendingScrollSection();
-    }, 300);
+    }, 150);
 
     return () => {
       window.clearTimeout(timeoutId);
