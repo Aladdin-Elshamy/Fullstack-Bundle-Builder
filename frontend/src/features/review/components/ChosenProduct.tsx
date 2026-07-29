@@ -98,7 +98,7 @@ export default function ChosenProduct({ line }: ChosenProductProps) {
           ) : null}
 
           <span className="text-[#4E2FD2] text-base font-semibold">
-            {product.required ? "FREE" : `${linePrice.toFixed(2)}`}
+            {product.required ? "FREE" : `$${linePrice.toFixed(2)}`}
 
             {product.category === "plan" && "/mo"}
           </span>
