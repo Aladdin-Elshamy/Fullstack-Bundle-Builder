@@ -53,6 +53,6 @@
     "#hooks/*": "./src/shared/hooks/*.ts",
     "#types/*": "./src/shared/types/*.ts",
     "#store/*": "./src/store/*.ts",
-    "#images/*": "./src/assets/images/*.webp"
+    "#assets/*": "./src/assets/*"
   }
 }

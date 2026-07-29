@@ -1,6 +1,6 @@
 import { Badge } from "#components/ui/badge";
 import { Button } from "#components/ui/button";
-import SatisfactionBadge from "#images/satisfaction-badge.webp";
+import SatisfactionBadge from "#assets/images/satisfaction-badge.webp";
 import { useCheckoutTotals } from "../hooks/useCheckoutTotals";
 
 export default function Checkout() {
