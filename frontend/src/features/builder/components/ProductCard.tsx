@@ -56,7 +56,7 @@ export default function ProductCard({
       className={cn(
         "w-full sm:max-w-70 xl:max-w-full rounded-2xl overflow-hidden p-0 gap-0 group/card flex flex-col xl:flex-row items-start border transition-colors",
         isSelected && "border-primary shadow-[0_0_0_1px_var(--primary)]",
-        isLastAndOdd && "mx-auto w-fit last:xl:col-span-2",
+        isLastAndOdd && "mx-auto xl:w-fit last:xl:col-span-2",
         product.category === "plan" && "last:mb-1 items-stretch",
       )}
     >

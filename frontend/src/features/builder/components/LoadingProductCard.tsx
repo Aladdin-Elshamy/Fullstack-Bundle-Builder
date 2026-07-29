@@ -11,7 +11,7 @@ export default function LoadingProductCard({
       aria-hidden="true"
       className={cn(
         "w-full sm:max-w-70 xl:max-w-full rounded-2xl overflow-hidden p-0 gap-0 flex flex-col xl:flex-row items-start border",
-        isLastAndOdd && "mx-auto w-fit last:xl:col-span-2",
+        isLastAndOdd && "mx-auto xl:w-fit last:xl:col-span-2",
       )}
     >
       {/* ── Image zone ── */}
