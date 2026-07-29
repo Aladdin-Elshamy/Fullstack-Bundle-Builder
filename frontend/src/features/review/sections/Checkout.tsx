@@ -2,20 +2,23 @@ import { Badge } from "#components/ui/badge";
 import { Button } from "#components/ui/button";
 import { useMemo } from "react";
 import toast from "react-hot-toast";
-import SatisfactionBadge from "../../../assets/images/satisfaction-badge.png";
+import SatisfactionBadge from "../../../assets/images/satisfaction-badge.webp";
 import { getSelectedLines, getTotals } from "../../../shared/lib/selectors";
 import { useBundleStore } from "../../../store/useBundleStore";
+import { useProductLookup } from "../../../shared/hooks/useProductLookup";
 
 export default function Checkout() {
   const quantities = useBundleStore((state) => state.quantities);
-  const products = useBundleStore((state) => state.products);
   const saveSystem = useBundleStore((state) => state.saveSystem);
+  const { productLookup } = useProductLookup();
   const totals = useMemo(
-    () => getTotals(getSelectedLines(quantities, products)),
-    [quantities, products],
+    () => getTotals(getSelectedLines(quantities, productLookup)),
+    [quantities, productLookup],
   );
-  const hasSavings = totals.savings > 0;
-  const financingAmount = Math.max(totals.total / 12, 0);
+  const totalSavings = totals.savings + totals.monthlySavings;
+  const OriginalMonthlyPrice = totals.monthlyTotal + totals.monthlySavings
+  const hasSavings = totalSavings > 0;
+  const financingAmount = Math.max(totals.total / 12 + totals.monthlyTotal, 0);
 
   const handleSaveSystem = () => {
     saveSystem();
@@ -41,26 +44,21 @@ export default function Checkout() {
           as low as ${financingAmount.toFixed(2)}/mo
         </Badge>
         {/* Price */}
-        <div className="flex items-end gap-2 col-start-2 justify-self-start xl:justify-self-start md:justify-self-end self-start">
+        <div className="flex items-end gap-2 col-start-2 justify-self-end self-start">
           {hasSavings ? (
             <span className="text-[#6F7882] font-medium text-lg line-through decoration-1">
-              ${totals.compareAtTotal.toFixed(2)}
+              ${(totals.compareAtTotal + OriginalMonthlyPrice).toFixed(2)}
             </span>
           ) : null}
 
           <span className="text-[#4E2FD2] text-2xl font-bold">
-            ${totals.total.toFixed(2)}
+            ${(totals.total + totals.monthlyTotal).toFixed(2)}
           </span>
         </div>
       </div>
-      {totals.monthlyTotal > 0 ? (
-        <p className="pt-2 font-semibold text-[#4E2FD2] text-xs">
-          Plan: ${totals.monthlyTotal.toFixed(2)}/mo
-        </p>
-      ) : null}
       {hasSavings ? (
         <p className="font-semibold text-[#0AA288] text-xs">
-          Congrats! You're saving ${totals.savings.toFixed(2)} on your security
+          Congrats! You're saving ${totalSavings.toFixed(2)} on your security
           bundle!
         </p>
       ) : null}

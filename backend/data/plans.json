@@ -5,6 +5,7 @@
     "name": "Cam Unlimited",
     "description": "Unlimited cloud recording for all your Wyze cameras with AI-powered event detection.",
     "price": 9.99,
+    "originalPrice":12.99,
     "quantity": 0
   },
   {
@@ -20,7 +21,7 @@
     "category": "plan",
     "name": "Home Monitoring",
     "description": "24/7 professional home monitoring with emergency dispatch and Wyze Sense support.",
-    "price": 9.99,
+    "price": 19.99,
     "quantity": 0
   }
 ]

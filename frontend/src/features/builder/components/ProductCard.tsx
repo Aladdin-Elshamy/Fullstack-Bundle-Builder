@@ -3,24 +3,55 @@
 import { Badge } from "#components/ui/badge";
 import { Button } from "#components/ui/button";
 import { Card, CardContent, CardFooter } from "#components/ui/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "#components/ui/tooltip";
 import useElementDimensions from "#hooks/useElementDimensions";
 import AddIcon from "#icons/AddIcon";
 import MinusIcon from "#icons/MinusIcon";
 import { cn } from "#lib/utils";
-import { useState } from "react";
+import { type ReactNode, useState } from "react";
 import { useBundleStore } from "../../../store/useBundleStore";
-import { getQuantity } from "../../../shared/lib/selectors";
+import {
+  canIncrementProductQuantity,
+  getQuantity,
+} from "../../../shared/lib/selectors";
 import type { Product } from "../../../shared/types/components";
 import PlanIcon from "#icons/PlanIcon";
 
 type ProductCardProps = {
   product: Product;
   isLastAndOdd: boolean;
+  exclusiveProductIds?: string[];
 };
+
+function DisabledStepperTooltip({
+  message,
+  children,
+}: {
+  message?: string;
+  children: ReactNode;
+}) {
+  if (!message) {
+    return children;
+  }
+
+  return (
+    <Tooltip>
+      <TooltipTrigger render={<span className="inline-flex" tabIndex={0} />}>
+        {children}
+      </TooltipTrigger>
+      <TooltipContent>{message}</TooltipContent>
+    </Tooltip>
+  );
+}
 
 export default function ProductCard({
   product,
   isLastAndOdd,
+  exclusiveProductIds = [],
 }: ProductCardProps) {
   const [activeVariant, setActiveVariant] = useState<
     | {
@@ -42,6 +73,14 @@ export default function ProductCard({
   const isPlanSelected = product.category === "plan" && quantity > 0;
   const isSelected =
     product.category === "plan" ? isPlanSelected : quantity > 0;
+  const isDecrementDisabled = quantity === 0;
+  const isIncrementDisabled = !canIncrementProductQuantity(product, quantity);
+  const decrementTooltip = isDecrementDisabled
+    ? "Minimum quantity reached."
+    : undefined;
+  const incrementTooltip = isIncrementDisabled
+    ? "Maximum quantity reached."
+    : undefined;
 
   return (
     <Card
@@ -129,7 +168,12 @@ export default function ProductCard({
           {product.category === "plan" ? (
             <Button
               onClick={() =>
-                setQuantity(product, undefined, isPlanSelected ? 0 : 1)
+                setQuantity(
+                  product,
+                  undefined,
+                  isPlanSelected ? 0 : 1,
+                  exclusiveProductIds,
+                )
               }
               className={cn(
                 "relative overflow-hidden group/btn flex-1 h-12 rounded-xl font-semibold text-base cursor-pointer border border-primary transition-all flex items-center justify-center gap-2",
@@ -143,34 +187,39 @@ export default function ProductCard({
             </Button>
           ) : (
             <div className="flex items-start gap-1">
-              <Button
-                onClick={() =>
-                  setQuantity(
-                    product,
-                    activeVariant?.variant_name,
-                    quantity - 1,
-                  )
-                }
-                disabled={quantity === 0}
-                className="bg-[#F0F4F7] w-7! h-7! disabled:border-[#CED6DE]! border-4 border-[#F0F4F7] hover:bg-gray-300 hover:border-gray-300"
-              >
-                <MinusIcon className="w-2! h-2! disabled:text-[#CED6DE]! text-[#525963]! " />
-              </Button>
+              <DisabledStepperTooltip message={decrementTooltip}>
+                <Button
+                  onClick={() =>
+                    setQuantity(
+                      product,
+                      activeVariant?.variant_name,
+                      quantity - 1,
+                    )
+                  }
+                  disabled={isDecrementDisabled}
+                  className="bg-[#F0F4F7] w-7! h-7! disabled:border-[#CED6DE]! border-4 border-[#F0F4F7] hover:bg-gray-300 hover:border-gray-300"
+                >
+                  <MinusIcon className="w-2! h-2! disabled:text-[#CED6DE]! text-[#525963]! " />
+                </Button>
+              </DisabledStepperTooltip>
               <p className="font-medium text-[#0B0D10] text-base m-0! w-5 text-center">
                 {quantity}
               </p>
-              <Button
-                onClick={() =>
-                  setQuantity(
-                    product,
-                    activeVariant?.variant_name,
-                    quantity + 1,
-                  )
-                }
-                className="bg-[#F0F4F7] w-7! h-7! disabled:border-[#CED6DE]! border-4 border-[#F0F4F7]  hover:bg-gray-300 hover:border-gray-300"
-              >
-                <AddIcon className="w-2! h-2! disabled:text-[#CED6DE]! text-[#525963]" />
-              </Button>
+              <DisabledStepperTooltip message={incrementTooltip}>
+                <Button
+                  onClick={() =>
+                    setQuantity(
+                      product,
+                      activeVariant?.variant_name,
+                      quantity + 1,
+                    )
+                  }
+                  disabled={isIncrementDisabled}
+                  className="bg-[#F0F4F7] w-7! h-7! disabled:border-[#CED6DE]! border-4 border-[#F0F4F7]  hover:bg-gray-300 hover:border-gray-300"
+                >
+                  <AddIcon className="w-2! h-2! disabled:text-[#CED6DE]! text-[#525963]" />
+                </Button>
+              </DisabledStepperTooltip>
             </div>
           )}
           {/* Price */}

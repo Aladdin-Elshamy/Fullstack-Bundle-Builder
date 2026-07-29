@@ -8,7 +8,7 @@
     "price": 27.98,
     "originalPrice": 35.98,
     "discount": 22,
-    "quantity": 1,
+    "quantity": 5,
     "options": [
       {
         "variant_name": "White",
@@ -35,8 +35,8 @@
     "image": "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785205579/cam-pan_rjj5ed.png",
     "price": 34.98,
     "originalPrice": 39.98,
-    "discount": 17,
-    "quantity": 0,
+    "discount": 12,
+    "quantity": 10,
     "options": [
       {
         "variant_name": "White",
@@ -59,7 +59,7 @@
     "price": 69.98,
     "originalPrice": 89.98,
     "discount": 22,
-    "quantity": 0,
+    "quantity": 1,
     "options": [
       {
         "variant_name": "White",
@@ -80,7 +80,7 @@
     "description": "Two cameras. Two views. Double the porch protection.",
     "image": "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785320986/cam-doorbell_foubc1.webp",
     "price": 69.98,
-    "quantity": 0
+    "quantity": 8
   },
   {
     "id": "battery-cam-pro",
@@ -89,7 +89,7 @@
     "description": "Protect anywhere. See everything in 2.5K HDR. No power outlet or electrician needed.",
     "image": "https://res.cloudinary.com/dxmk4yvoj/image/upload/v1785320986/cam-pro-white_zzkrns.webp",
     "price": 89.98,
-    "quantity": 0,
+    "quantity": 4,
     "options": [
       {
         "variant_name": "White",

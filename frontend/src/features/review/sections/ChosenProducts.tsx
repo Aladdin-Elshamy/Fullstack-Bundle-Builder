@@ -4,6 +4,7 @@ import {
   type BundleLine,
 } from "../../../shared/lib/selectors";
 import { useBundleStore } from "../../../store/useBundleStore";
+import { useProductLookup } from "../../../shared/hooks/useProductLookup";
 import ChosenProduct from "../components/ChosenProduct";
 
 const categoryByProductType = {
@@ -19,10 +20,10 @@ type ChosenProductsProps = {
 
 export default function ChosenProducts({ productType }: ChosenProductsProps) {
   const quantities = useBundleStore((state) => state.quantities);
-  const products = useBundleStore((state) => state.products);
+  const { productLookup } = useProductLookup();
   const lines = useMemo(
-    () => getSelectedLines(quantities, products),
-    [quantities, products],
+    () => getSelectedLines(quantities, productLookup),
+    [quantities, productLookup],
   );
   const filteredLines = useMemo(
     () =>
@@ -33,7 +34,7 @@ export default function ChosenProducts({ productType }: ChosenProductsProps) {
           )
         : [],
     [lines, productType],
-  ); 
+  );
 
   if (!productType || filteredLines.length === 0) {
     return null;
@@ -46,7 +47,6 @@ export default function ChosenProducts({ productType }: ChosenProductsProps) {
         {filteredLines.map((line) => (
           <ChosenProduct key={line.key} line={line} />
         ))}
-  
       </div>
     </div>
   );

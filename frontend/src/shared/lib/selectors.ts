@@ -16,6 +16,8 @@ export type BundleTotals = {
   compareAtTotal: number;
   savings: number;
   monthlyTotal: number;
+  monthlyCompareAtTotal: number;
+  monthlySavings: number;
 };
 
 export const getProductById = (products: ProductLookup, productId: string) =>
@@ -41,20 +43,22 @@ export const getQuantity = (
   return quantities[getLineKey(product, variantName)] ?? 0;
 };
 
-export const getDefaultQuantities = (products: Product[]) => {
-  const quantities: Record<string, number> = {};
+export const getMaxProductQuantity = (product: Product) => {
+  if (product.required) {
+    return 1;
+  }
 
-  products.forEach((product) => {
-    if (product.required || product.quantity <= 0) {
-      return;
-    }
+  if (product.category === "plan") {
+    return 1;
+  }
 
-    quantities[getLineKey(product, product.options?.[0]?.variant_name)] =
-      product.category === "plan" ? 1 : product.quantity;
-  });
-
-  return quantities;
+  return Math.max(0, product.quantity);
 };
+
+export const canIncrementProductQuantity = (
+  product: Product,
+  currentQuantity: number,
+) => currentQuantity < getMaxProductQuantity(product);
 
 export const getSelectedLines = (
   quantities: Record<string, number>,
@@ -123,6 +127,9 @@ export const getTotals = (lines: BundleLine[]): BundleTotals => {
         return {
           ...totals,
           monthlyTotal: totals.monthlyTotal + lineTotal,
+          monthlyCompareAtTotal:
+            totals.monthlyCompareAtTotal + compareAtLineTotal,
+          monthlySavings: totals.monthlySavings + (compareAtLineTotal - lineTotal),
         };
       }
 
@@ -131,6 +138,8 @@ export const getTotals = (lines: BundleLine[]): BundleTotals => {
         compareAtTotal: totals.compareAtTotal + compareAtLineTotal,
         savings: totals.savings + (compareAtLineTotal - lineTotal),
         monthlyTotal: totals.monthlyTotal,
+        monthlyCompareAtTotal: totals.monthlyCompareAtTotal,
+        monthlySavings: totals.monthlySavings,
       };
     },
     {
@@ -138,6 +147,8 @@ export const getTotals = (lines: BundleLine[]): BundleTotals => {
       compareAtTotal: 0,
       savings: 0,
       monthlyTotal: 0,
+      monthlyCompareAtTotal: 0,
+      monthlySavings: 0,
     },
   );
 };
