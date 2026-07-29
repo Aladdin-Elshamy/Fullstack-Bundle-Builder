@@ -1,32 +1,19 @@
-import fs from "fs";
-import mongoose from "mongoose";
-import path from "path";
-import { fileURLToPath } from "url";
 import Product from "../models/product.model.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const dataDirectory = path.resolve(__dirname, "../data");
-
-const readProductsFile = (fileName) => {
-  const filePath = path.join(dataDirectory, fileName);
-  const fileContent = fs.readFileSync(filePath, "utf-8");
-
-  return JSON.parse(fileContent);
-};
-
-const getProductsFromJson = (fileName) => (_req, res) => {
+const getProductsByCategory = (category) => async (_req, res) => {
   try {
-    const products = readProductsFile(fileName);
+    const products = await Product.find({ category })
+      .select("-_id -__v -createdAt -updatedAt")
+      .lean();
 
     res.status(200).json({ success: true, products });
   } catch (error) {
-    console.log(`Error in getting ${fileName}: ${error}`);
+    console.log(`Error in getting ${category} products: ${error}`);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
-export const getCameraProducts = getProductsFromJson("cameras.json");
-export const getPlanProducts = getProductsFromJson("plans.json");
-export const getSensorProducts = getProductsFromJson("sensors.json");
-export const getAccessoryProducts = getProductsFromJson("accessories.json");
+export const getCameraProducts = getProductsByCategory("camera");
+export const getPlanProducts = getProductsByCategory("plan");
+export const getSensorProducts = getProductsByCategory("sensor");
+export const getAccessoryProducts = getProductsByCategory("accessory");
