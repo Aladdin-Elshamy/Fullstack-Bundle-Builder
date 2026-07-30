@@ -36,7 +36,6 @@ export function useBuilderAccordion() {
         clearPendingScrollSection();
         return;
       }
-
       const topOffset = 24;
       const targetTop =
         target.getBoundingClientRect().top + window.scrollY - topOffset;
