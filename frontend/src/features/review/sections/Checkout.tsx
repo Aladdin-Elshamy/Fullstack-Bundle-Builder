@@ -11,6 +11,7 @@ export default function Checkout() {
     hasSavings,
     financingAmount,
     handleSaveSystem,
+    handleCheckout
   } = useCheckoutTotals();
 
   return (
@@ -50,7 +51,12 @@ export default function Checkout() {
           bundle!
         </p>
       ) : null}
-      <Button className="w-full mt-1 h-12 font-tt-norms">Checkout</Button>
+      <Button
+        onClick={handleCheckout}
+        className="w-full mt-1 h-12 font-tt-norms"
+      >
+        Checkout
+      </Button>
       <Button
         variant="ghost"
         onClick={handleSaveSystem}

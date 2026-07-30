@@ -4,7 +4,6 @@ import { useBundleStore } from "#store/useBundleStore";
 import { useMemo } from "react";
 import toast from "react-hot-toast";
 
-
 export function useCheckoutTotals() {
   const quantities = useBundleStore((state) => state.quantities);
   const saveSystem = useBundleStore((state) => state.saveSystem);
@@ -25,6 +24,10 @@ export function useCheckoutTotals() {
     toast.success("Your security system was saved.");
   };
 
+  const handleCheckout = () => {
+    toast("Checkout is not implemented in this demo.");
+  };
+
   return {
     totals,
     totalSavings,
@@ -32,5 +35,6 @@ export function useCheckoutTotals() {
     hasSavings,
     financingAmount,
     handleSaveSystem,
+    handleCheckout
   };
 }
