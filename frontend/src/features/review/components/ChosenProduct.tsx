@@ -3,31 +3,31 @@ import { Button } from "#components/ui/button";
 import AddIcon from "#icons/AddIcon";
 import MinusIcon from "#icons/MinusIcon";
 import PlanIcon from "#icons/PlanIcon";
-import { canIncrementProductQuantity } from "#lib/selectors";
-import { useBundleStore } from "#store/useBundleStore";
+import { useProductDisplayName } from "#hooks/useProductDisplayName";
+import { useProductQuantityStepper } from "#hooks/useProductQuantityStepper";
 import type { ChosenProductProps } from "../types";
 
 export default function ChosenProduct({ line }: ChosenProductProps) {
-  const setQuantity = useBundleStore((state) => state.setQuantity);
   const { product, quantity, variantName, required } = line;
-  const isDecrementDisabled = required || quantity === 0;
-  const isIncrementDisabled =
-    required || !canIncrementProductQuantity(product, quantity);
-  const decrementTooltip = isDecrementDisabled
-    ? required
-      ? "This item is required for selected sensors."
-      : "Minimum quantity reached."
-    : undefined;
-  const incrementTooltip = isIncrementDisabled
-    ? required
-      ? "This item is required for selected sensors."
-      : "Maximum quantity reached."
-    : undefined;
+  const {
+    isDecrementDisabled,
+    isIncrementDisabled,
+    decrementTooltip,
+    incrementTooltip,
+    decrementQuantity,
+    incrementQuantity,
+  } = useProductQuantityStepper({
+    product,
+    quantity,
+    variantName,
+    required,
+  });
   const linePrice = product.price * quantity;
   const originalLinePrice = product.originalPrice
     ? product.originalPrice * quantity
     : undefined;
-
+  const { isPlan, firstProductName, restProductName } =
+    useProductDisplayName(product);
   return (
     <div className="flex items-center justify-between gap-3">
       {/* Product Info */}
@@ -46,15 +46,24 @@ export default function ChosenProduct({ line }: ChosenProductProps) {
           )}
         </div>
         <div className="min-w-0">
-          <p className="font-medium text-[#0B0D10] max-w-40">
-            {product.name}{" "}
+          <div className="font-medium text-[#0B0D10] max-w-40">
+            {isPlan ? (
+              <div className="text-lg">
+                <span className="font-bold">{firstProductName}</span>{" "}
+                <span className="font-bold text-primary">
+                  {restProductName}
+                </span>
+              </div>
+            ) : (
+              product.name
+            )}{" "}
             {required ? (
               <>
                 <br />
                 <span>(Required)</span>
               </>
             ) : null}
-          </p>
+          </div>
           {variantName ? (
             <p className="text-xs text-[#6F7882]">{variantName}</p>
           ) : null}
@@ -62,11 +71,11 @@ export default function ChosenProduct({ line }: ChosenProductProps) {
       </div>
       <div className="flex items-baseline-last sm:items-center gap-4 font-semibold">
         {/* Counter */}
-        {product.category !== "plan" && !product.required ? (
+        {product.category !== "plan" ? (
           <div className="flex items-center gap-2">
             <DisabledStepperTooltip message={decrementTooltip}>
               <button
-                onClick={() => setQuantity(product, variantName, quantity - 1)}
+                onClick={decrementQuantity}
                 disabled={isDecrementDisabled}
                 aria-label={`Decrease quantity of ${variantName ? `${variantName} ` : ""}${product.name}`}
                 className="bg-white flex justify-center items-center disabled:border-[#CED6DE]! disabled:bg-[#F1F1F2] border-2 w-6! h-6! rounded border-white hover:bg-gray-300 hover:border-gray-300"
@@ -79,7 +88,7 @@ export default function ChosenProduct({ line }: ChosenProductProps) {
             </p>
             <DisabledStepperTooltip message={incrementTooltip}>
               <Button
-                onClick={() => setQuantity(product, variantName, quantity + 1)}
+                onClick={incrementQuantity}
                 disabled={isIncrementDisabled}
                 aria-label={`Increase quantity of ${variantName ? `${variantName} ` : ""}${product.name}`}
                 className="bg-white disabled:border-[#CED6DE]! disabled:bg-[#F1F1F2] border-2 w-6! h-6! rounded border-white hover:bg-gray-300 hover:border-gray-300 flex items-center justify-center"

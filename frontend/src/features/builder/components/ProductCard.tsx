@@ -8,12 +8,11 @@ import useElementDimensions from "#hooks/useElementDimensions";
 import AddIcon from "#icons/AddIcon";
 import MinusIcon from "#icons/MinusIcon";
 import PlanIcon from "#icons/PlanIcon";
+import { useProductDisplayName } from "#hooks/useProductDisplayName";
+import { useProductQuantityStepper } from "#hooks/useProductQuantityStepper";
 import { cn } from "#lib/utils";
 import { useState } from "react";
-import {
-  canIncrementProductQuantity,
-  getQuantity,
-} from "../../../shared/lib/selectors";
+import { getQuantity } from "../../../shared/lib/selectors";
 import { useBundleStore } from "../../../store/useBundleStore";
 import type { ProductCardProps } from "../types";
 
@@ -42,14 +41,21 @@ export default function ProductCard({
   const isPlanSelected = product.category === "plan" && quantity > 0;
   const isSelected =
     product.category === "plan" ? isPlanSelected : quantity > 0;
-  const isDecrementDisabled = quantity === 0;
-  const isIncrementDisabled = !canIncrementProductQuantity(product, quantity);
-  const decrementTooltip = isDecrementDisabled
-    ? "Minimum quantity reached."
-    : undefined;
-  const incrementTooltip = isIncrementDisabled
-    ? "Maximum quantity reached."
-    : undefined;
+  const { isPlan, firstProductName, restProductName } =
+    useProductDisplayName(product);
+  const {
+    isDecrementDisabled,
+    isIncrementDisabled,
+    decrementTooltip,
+    incrementTooltip,
+    decrementQuantity,
+    incrementQuantity,
+  } = useProductQuantityStepper({
+    product,
+    quantity,
+    variantName: activeVariant?.variant_name,
+    exclusiveProductIds,
+  });
 
   return (
     <Card
@@ -90,7 +96,18 @@ export default function ProductCard({
         <CardContent className="px-2.5 pt-4 pb-2.5 ">
           {/* Brand + name */}
           <div className="min-w-0 space-y-2">
-            <h3 className="text-lg font-semibold">{product.name}</h3>
+            <h3 className="text-lg font-semibold">
+              {isPlan ? (
+                <>
+                  <span className="font-bold">{firstProductName}</span>{" "}
+                  <span className="font-bold text-primary">
+                    {restProductName}
+                  </span>
+                </>
+              ) : (
+                product.name
+              )}
+            </h3>
             <p className="text-sm text-[#1F1F1FBF] font-medium max-w-sm">
               {product.description}{" "}
               <a href="#" className="font-semibold text-primary">
@@ -160,13 +177,7 @@ export default function ProductCard({
             <div className="flex items-start gap-1">
               <DisabledStepperTooltip message={decrementTooltip}>
                 <Button
-                  onClick={() =>
-                    setQuantity(
-                      product,
-                      activeVariant?.variant_name,
-                      quantity - 1,
-                    )
-                  }
+                  onClick={decrementQuantity}
                   disabled={isDecrementDisabled}
                   aria-label={`Decrease quantity of ${activeVariant?.variant_name ? `${activeVariant.variant_name} ` : ""}${product.name}`}
                   className="bg-[#F0F4F7] w-7! h-7! disabled:border-[#CED6DE]! border-4 border-[#F0F4F7] hover:bg-gray-300 hover:border-gray-300"
@@ -179,13 +190,7 @@ export default function ProductCard({
               </p>
               <DisabledStepperTooltip message={incrementTooltip}>
                 <Button
-                  onClick={() =>
-                    setQuantity(
-                      product,
-                      activeVariant?.variant_name,
-                      quantity + 1,
-                    )
-                  }
+                  onClick={incrementQuantity}
                   aria-label={`Increase quantity of ${activeVariant?.variant_name ? `${activeVariant.variant_name} ` : ""}${product.name}`}
                   disabled={isIncrementDisabled}
                   className="bg-[#F0F4F7] w-7! h-7! disabled:border-[#CED6DE]! border-4 border-[#F0F4F7]  hover:bg-gray-300 hover:border-gray-300"

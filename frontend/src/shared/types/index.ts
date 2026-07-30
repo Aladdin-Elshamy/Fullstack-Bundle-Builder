@@ -36,3 +36,10 @@ export interface BundleTotals {
   monthlySavings: number;
 };
 
+export interface UseProductQuantityStepperOptions {
+  product: Product;
+  quantity: number;
+  variantName?: string;
+  required?: boolean;
+  exclusiveProductIds?: string[];
+};
