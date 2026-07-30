@@ -36,15 +36,7 @@ export function useBuilderAccordion() {
         clearPendingScrollSection();
         return;
       }
-
-      const topOffset = 24;
-      const targetTop =
-        target.getBoundingClientRect().top + window.scrollY - topOffset;
-
-      window.scrollTo({
-        top: targetTop,
-        behavior: "auto",
-      });
+      target.scrollIntoView({behavior: "smooth"})
 
       clearPendingScrollSection();
     }, 150);
