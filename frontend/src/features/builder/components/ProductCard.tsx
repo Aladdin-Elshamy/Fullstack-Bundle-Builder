@@ -180,9 +180,9 @@ export default function ProductCard({
                   onClick={decrementQuantity}
                   disabled={isDecrementDisabled}
                   aria-label={`Decrease quantity of ${activeVariant?.variant_name ? `${activeVariant.variant_name} ` : ""}${product.name}`}
-                  className="bg-[#F0F4F7] w-7! h-7! disabled:border-[#CED6DE]! border-4 border-[#F0F4F7] hover:bg-gray-300 hover:border-gray-300"
+                  className="bg-[#F0F4F7] w-7! h-7! disabled:border-[#CED6DE]! rounded-sm border-3 border-[#F0F4F7] hover:bg-gray-300 hover:border-gray-300 disabled:bg-transparent"
                 >
-                  <MinusIcon className="w-2! h-2! disabled:text-[#CED6DE]! text-[#525963]! " />
+                  <MinusIcon className="w-2.5! h-2.5! disabled:text-[#CED6DE]! text-[#525963]! " />
                 </Button>
               </DisabledStepperTooltip>
               <p className="font-medium text-[#0B0D10] text-base m-0! w-5 text-center">
@@ -193,9 +193,9 @@ export default function ProductCard({
                   onClick={incrementQuantity}
                   aria-label={`Increase quantity of ${activeVariant?.variant_name ? `${activeVariant.variant_name} ` : ""}${product.name}`}
                   disabled={isIncrementDisabled}
-                  className="bg-[#F0F4F7] w-7! h-7! disabled:border-[#CED6DE]! border-4 border-[#F0F4F7]  hover:bg-gray-300 hover:border-gray-300"
+                  className="bg-[#F0F4F7] w-7! h-7! disabled:border-[#CED6DE]! rounded-sm border-3 border-[#F0F4F7]  hover:bg-gray-300 hover:border-gray-300 disabled:bg-transparent"
                 >
-                  <AddIcon className="w-2! h-2! disabled:text-[#CED6DE]! text-[#525963]" />
+                  <AddIcon className="w-2.5! h-2.5! disabled:text-[#CED6DE]! text-[#525963]" />
                 </Button>
               </DisabledStepperTooltip>
             </div>

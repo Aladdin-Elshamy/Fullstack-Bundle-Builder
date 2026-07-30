@@ -74,14 +74,14 @@ export default function ChosenProduct({ line }: ChosenProductProps) {
         {product.category !== "plan" ? (
           <div className="flex items-center gap-2">
             <DisabledStepperTooltip message={decrementTooltip}>
-              <button
+              <Button
                 onClick={decrementQuantity}
                 disabled={isDecrementDisabled}
                 aria-label={`Decrease quantity of ${variantName ? `${variantName} ` : ""}${product.name}`}
-                className="bg-white flex justify-center items-center disabled:border-[#CED6DE]! disabled:bg-[#F1F1F2] border-2 w-6! h-6! rounded border-white hover:bg-gray-300 hover:border-gray-300"
+                className="bg-white flex justify-center items-center disabled:border-[#CED6DE]! disabled:bg-[#F1F1F2] border-2 w-6! h-6! rounded border-white hover:bg-gray-300 hover:border-gray-300 disabled:opacity-100"
               >
                 <MinusIcon className="w-2.5! h-2.5! disabled:text-[#CED6DE]! text-[#575757]! " />
-              </button>
+              </Button>
             </DisabledStepperTooltip>
             <p className="font-semibold text-[#0B0D10] text-base m-0! w-5 text-center">
               {quantity}
@@ -91,7 +91,7 @@ export default function ChosenProduct({ line }: ChosenProductProps) {
                 onClick={incrementQuantity}
                 disabled={isIncrementDisabled}
                 aria-label={`Increase quantity of ${variantName ? `${variantName} ` : ""}${product.name}`}
-                className="bg-white disabled:border-[#CED6DE]! disabled:bg-[#F1F1F2] border-2 w-6! h-6! rounded border-white hover:bg-gray-300 hover:border-gray-300 flex items-center justify-center"
+                className="bg-white disabled:border-[#CED6DE]! disabled:bg-[#F1F1F2] border-2 w-6! h-6! rounded border-white hover:bg-gray-300 hover:border-gray-300 flex items-center justify-center disabled:opacity-100"
               >
                 <AddIcon className="w-2.5! h-2.5! disabled:text-[#CED6DE]! text-[#575757]" />
               </Button>
