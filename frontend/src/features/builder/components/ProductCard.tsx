@@ -205,6 +205,7 @@ export default function ProductCard({
             {product.originalPrice ? (
               <span className="text-[#D8392B] line-through decoration-1 text-base">
                 ${product.originalPrice.toFixed(2)}
+                {product.category === "plan" && "/mo"}
               </span>
             ) : null}
             <span className="text-[#575757] text-base">

@@ -103,6 +103,7 @@ export default function ChosenProduct({ line }: ChosenProductProps) {
           {originalLinePrice && originalLinePrice > linePrice ? (
             <span className="text-[#6F7882] line-through decoration-1 text-base font-medium">
               ${originalLinePrice.toFixed(2)}
+              {product.category === "plan" && "/mo"}
             </span>
           ) : null}
 
