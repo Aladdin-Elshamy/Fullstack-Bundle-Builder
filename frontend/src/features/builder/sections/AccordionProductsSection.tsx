@@ -19,6 +19,7 @@ export default function AccordionProductsSection({
     queryKey: ["products", section],
     queryFn: () => fetchProductsBySection(section),
     enabled: isOpen,
+    staleTime: 5 * 60 * 1000,
   });
 
   if (isLoading || (isOpen && isFetching && products.length === 0)) {
