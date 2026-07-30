@@ -292,4 +292,5 @@ Use this production preview URL when checking Lighthouse or performance results 
 - Variant quantities are tracked separately, so each selected variant appears as its own review line.
 - Required products, such as the Sense Hub, are automatically managed by the app.
 - Plans are treated as monthly pricing, while hardware is treated as one-time pricing.
-- The checkout financing line combines one-time hardware financing with selected monthly plan pricing.
+- The checkout financing line combines one-time hardware financing with selected monthly plan pricing and the shipping cost.
+- The original total excludes the Fast Shipping cost, matching the behavior shown in the provided design, where shipping is treated as a separate line item.
