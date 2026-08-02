@@ -92,9 +92,15 @@ export const getSelectedCountByCategory = (
   products: ProductLookup,
   category: Product["category"],
 ) => {
-  return getSelectedLines(quantities, products).filter(
-    (line) => !line.required && line.product.category === category,
-  ).length;
+  const selectedProductIds = new Set<string>();
+
+  getSelectedLines(quantities, products).forEach((line) => {
+    if (!line.required && line.product.category === category) {
+      selectedProductIds.add(line.product.id);
+    }
+  });
+
+  return selectedProductIds.size;
 };
 
 export const getTotals = (lines: BundleLine[]): BundleTotals => {

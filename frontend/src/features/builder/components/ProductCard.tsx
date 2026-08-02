@@ -38,9 +38,18 @@ export default function ProductCard({
     product,
     activeVariant?.variant_name,
   );
+  const hasSelectedVariant = Boolean(
+    product.options?.some(
+      (option) => getQuantity(quantities, product, option.variant_name) > 0,
+    ),
+  );
   const isPlanSelected = product.category === "plan" && quantity > 0;
   const isSelected =
-    product.category === "plan" ? isPlanSelected : quantity > 0;
+    product.category === "plan"
+      ? isPlanSelected
+      : hasOptions
+        ? hasSelectedVariant
+        : quantity > 0;
   const { isPlan, firstProductName, restProductName } =
     useProductDisplayName(product);
   const {
